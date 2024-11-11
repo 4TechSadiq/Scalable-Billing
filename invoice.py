@@ -28,9 +28,10 @@ def invoice(template, context):
     document.render(context)
 
     #Saving Document
-    document.save(f'{context['customer_name']}.docx')
+    document.save(f'{context['customer_name']}-invoice.docx')
     #Converting docx to pdf
-    convert(f'{context['customer_name']}.docx', f'{context['customer_name']}.pdf')
+    convert(f'{context['customer_name']}-invoice.docx', f'{context['customer_name']}-invoice.pdf')
+    os.remove(f'{context['customer_name']}-invoice.docx')
     # #Converting PDF to Image
     # with fitz.open(f'{name}.pdf') as pdf_doc:
     #     for pg in range(pdf_doc.page_count):

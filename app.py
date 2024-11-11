@@ -43,6 +43,7 @@ def index():
             'balance_payable': balance_payable,
             'discounted_price': discounted_price,
         }
+        
         invoice('invoice.docx', context)
         print(context)
 
