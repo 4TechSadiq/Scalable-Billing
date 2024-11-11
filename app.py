@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template
+from invoice_number import generate_invoice_number
 
 
 app = Flask(__name__, template_folder='templates')
@@ -9,11 +10,11 @@ def index():
         billed_date = request.form.get('billed_date')
         billed_time = request.form.get('billed_time')
         biller_name = request.form.get('billed_by')
-        invoice_no = request.form.get('invoice_no')
+        invoice_no = generate_invoice_number()
         customer_name = request.form.get('customer_name')
         customer_address = request.form.get('customer_address')
         business_name = request.form.get('business_name')
-        mode_of_payment = request.form.get('mode_of_payment')
+        mode_of_payment = request.form.get('payment_mode')
         service_desc = request.form.getlist('service')
         service_price = request.form.getlist('price')
         service_quantity = request.form.getlist('quantity')
