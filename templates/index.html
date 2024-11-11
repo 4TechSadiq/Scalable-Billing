@@ -27,18 +27,34 @@
         <div class="container mt-5">
             <!-- <h1 class="ms-5 mb-4">Scalable Billing System</h1> -->
             <form method='post' action="{{ url_for('index') }}" id="billingForm">
-                <div class="container d-flex justify-content-around flex-wrap">
-                    <div class="col-lg-3 col-sm-4 mb-3 p-3 rounded shadow">
+                <div class="container d-flex mb-5 justify-content-around flex-wrap">
+                    <div class="col-7 d-flex">
+                        <div class="col-lg-3 col-sm-4 mb-3 p-3 shadow rounded">
+                            <label for="" class="form-label">Billing Date</label>
+                            <input type="text" class="form-control" name="billed_date" disabled readonly id="billingDate">
+                        </div>
+                        <div class="col-lg-3 ms-3 col-sm-4 mb-3 p-3 rounded shadow">
+                            <label for="" class="form-label">Billing Time</label>
+                            <input type="text" class="form-control" name="billed_time" disabled readonly id="billingTime">
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-sm-4 mb-3 p-3 rounded shadow">
                         <label for="" class="form-label">Billed By</label>
                         <input type="text" class="form-control" name="billed_by" id="">
                     </div>
+                </div>
+                <div class="container d-flex justify-content-around flex-wrap">
                     <div class="col-lg-3 col-sm-4 mb-3 p-3 shadow rounded">
-                        <label for="" class="form-label">Billing Date</label>
-                        <input type="text" class="form-control" name="billing_date" disabled readonly id="billingDate">
+                        <label for="" class="form-label">Customer Name</label>
+                        <input type="text" class="form-control" name="billed_date" id="billingDate">
                     </div>
-                    <div class="col-lg-3 col-sm-4 mb-3 p-3 rounded shadow">
-                        <label for="" class="form-label">Billing Time</label>
-                        <input type="text" class="form-control" name="billing_time" disabled readonly id="billingTime">
+                    <div class="col-lg-4 col-sm-4 mb-3 p-3 rounded shadow">
+                        <label for="" class="form-label">Business Name</label>
+                        <input type="text" class="form-control" name="billed_by" id="">
+                    </div>
+                    <div class="col-lg-4 col-sm-4 mb-3 p-3 rounded shadow">
+                        <label for="" class="form-label">Customer Address</label>
+                        <input type="text" class="form-control" name="billed_time" id="billingTime">
                     </div>
                 </div>
                 <div class="container p-5 shadow rounded mb-4 sm-p-0" style="overflow: auto;">

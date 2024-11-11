@@ -7,7 +7,7 @@ import os #For removing files
 
 
 #Function to make invoice
-def invoice(template, name, logo, date, invoice_number, company_address, invoice_to, amount):
+def invoice(template, name, date, billing_time, invoice_number, biller_name, business_name, customer_name, customer_address, mode_of_payment, service_name, service_prize, service_quantity, discount, total, advance, balance, net_balance):
     document = DocxTemplate(template)
 
     #Datas inside the Invoice
@@ -32,7 +32,13 @@ def invoice(template, name, logo, date, invoice_number, company_address, invoice
         'customer_address': customer_address,
         'mode_of_payment': mode_of_payment,
         'service_desc': service_name,
-        'service_cost'
+        'service_prize': service_prize,
+        'service_quantity': service_quantity,
+        'discount': discount,
+        'total': total,
+        'advance_pay': advance,
+        'balance_pay': balance,
+        'net_balance': net_balance,
     }
 
     #Rendering Document
