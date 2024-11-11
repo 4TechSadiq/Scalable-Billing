@@ -7,7 +7,7 @@ import os #For removing files
 
 
 #Function to make invoice
-def invoice(template, name, date, billing_time, invoice_number, biller_name, business_name, customer_name, customer_address, mode_of_payment, service_name, service_prize, service_quantity, discount, total, advance, balance, net_balance):
+def invoice(template, context):
     document = DocxTemplate(template)
 
     #Datas inside the Invoice
@@ -22,50 +22,33 @@ def invoice(template, name, date, billing_time, invoice_number, biller_name, bus
     #     'amount': amount
     # }
 
-    context = {
-        'billing_date': date,
-        'billing_time': billing_time,
-        'invoice_no': invoice_number,
-        'biller_name': biller_name,
-        'business_name': business_name,
-        'customer_name': customer_name,
-        'customer_address': customer_address,
-        'mode_of_payment': mode_of_payment,
-        'service_desc': service_name,
-        'service_prize': service_prize,
-        'service_quantity': service_quantity,
-        'discount': discount,
-        'total': total,
-        'advance_pay': advance,
-        'balance_pay': balance,
-        'net_balance': net_balance,
-    }
+    context = context
 
     #Rendering Document
     document.render(context)
 
     #Saving Document
-    document.save(f'{name}.docx')
+    document.save(f'{context['customer_name']}.docx')
     #Converting docx to pdf
-    convert(f'{name}.docx', f'{name}.pdf')
-    #Converting PDF to Image
-    with fitz.open(f'{name}.pdf') as pdf_doc:
-        for pg in range(pdf_doc.page_count):
-            page = pdf_doc.load_page(pg)
-            #Scalling Resolution of Image
-            mat = fitz.Matrix(2, 2)
-            pix = page.get_pixmap(matrix=mat)
-            image = f"{name}.png"
-            pix.save(image)
-        print(f"Saved {image}")
+    convert(f'{context['customer_name']}.docx', f'{context['customer_name']}.pdf')
+    # #Converting PDF to Image
+    # with fitz.open(f'{name}.pdf') as pdf_doc:
+    #     for pg in range(pdf_doc.page_count):
+    #         page = pdf_doc.load_page(pg)
+    #         #Scalling Resolution of Image
+    #         mat = fitz.Matrix(2, 2)
+    #         pix = page.get_pixmap(matrix=mat)
+    #         image = f"{name}.png"
+    #         pix.save(image)
+    #     print(f"Saved {image}")
 
 
-    #Removing Temp Files
-    if image: #f'{name}.png': #in os.listdir():
-        os.remove(f'{name}.docx')
-        os.remove(f'{name}.pdf')
+    # #Removing Temp Files
+    # if image: #f'{name}.png': #in os.listdir():
+    #     os.remove(f'{name}.docx')
+    #     os.remove(f'{name}.pdf')
 
-    return image
+    # return image
         
 
 #Tesing Function

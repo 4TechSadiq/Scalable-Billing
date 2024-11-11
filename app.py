@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template
 from invoice_number import generate_invoice_number
+from invoice import invoice
 
 
 app = Flask(__name__, template_folder='templates')
@@ -42,6 +43,7 @@ def index():
             'balance_payable': balance_payable,
             'discounted_price': discounted_price,
         }
+        invoice('invoice.docx', context)
         print(context)
 
     return render_template('index.html')
