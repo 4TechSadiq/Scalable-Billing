@@ -25,8 +25,8 @@
     </nav>
     <div class="container p-4 rounded bg-light mt-4 mb-4 shadow">
         <div class="container mt-5">
-            <!-- <h1 class="ms-5 mb-4">Scalable Billing System</h1> -->
             <form method='post' action="{{ url_for('index') }}" id="billingForm">
+                <!-- Billing Information Section -->
                 <div class="container d-flex mb-5 justify-content-around flex-wrap">
                     <div class="col-7 d-flex">
                         <div class="col-lg-3 col-sm-4 mb-3 p-3 shadow rounded">
@@ -43,28 +43,33 @@
                         <input type="text" class="form-control" name="billed_by" id="">
                     </div>
                 </div>
+                
+                <!-- Customer and Business Information Section -->
                 <div class="container d-flex justify-content-around flex-wrap">
                     <div class="col-lg-3 col-sm-4 mb-3 p-3 shadow rounded">
                         <label for="" class="form-label">Customer Name</label>
-                        <input type="text" class="form-control" name="billed_date" id="billingDate">
+                        <input type="text" class="form-control" name="customer_name" id="">
                     </div>
                     <div class="col-lg-4 col-sm-4 mb-3 p-3 rounded shadow">
                         <label for="" class="form-label">Business Name</label>
-                        <input type="text" class="form-control" name="billed_by" id="">
+                        <input type="text" class="form-control" name="business_name" id="">
                     </div>
                     <div class="col-lg-4 col-sm-4 mb-3 p-3 rounded shadow">
                         <label for="" class="form-label">Customer Address</label>
-                        <input type="text" class="form-control" name="billed_time" id="billingTime">
+                        <input type="text" class="form-control" name="customer_address" id="">
                     </div>
                 </div>
-                <div class="container p-5 shadow rounded mb-4 sm-p-0" style="overflow: auto;">
+
+                <!-- Bill Table -->
+                <div class="container p-5 shadow rounded mb-4" style="overflow: auto;">
                     <h3>Bill</h3>
-                    <table class="table table-warning table-striped" id="servicesTable" >
+                    <table class="table table-warning table-striped" id="servicesTable">
                         <thead>
                             <tr>
                                 <th>SiNo</th>
                                 <th>Service Description</th>
                                 <th>Cost</th>
+                                <th>Quantity</th>
                                 <th>Price</th>
                             </tr>
                         </thead>
@@ -72,13 +77,16 @@
                             <tr>
                                 <td>1</td>
                                 <td><input name="service" class="form-control" type="text"></td>
-                                <td><input name="cost" class="form-control" type="text"></td>
-                                <td><input name="price" class="form-control price" type="text"></td>
+                                <td><input name="cost" class="form-control cost" type="number" oninput="calculateRowPrice(this)"></td>
+                                <td><input name="quantity" class="form-control quantity" type="number" oninput="calculateRowPrice(this)"></td>
+                                <td><input name="price" class="form-control price" type="text" readonly></td>
                             </tr>
                         </tbody>
                     </table>
                     <button type="button" class="btn nav-bg mb-3 d-flex justify-content-end" onclick="addRow()">Add</button>
                 </div>
+
+                <!-- Payment Details Section -->
                 <div class="container d-flex justify-content-evenly mb-3 flex-wrap">
                     <div class="col-lg-4 col-sm-12 mt-4 p-3 rounded shadow">
                         <div class="col-12 mb-3">
@@ -91,25 +99,30 @@
                         </div>
                         <div class="col-12 mb-3">
                             <label for="" class="form-label">Mode of Payment</label>
-                            <select class="form-control" id="">
-                                <option value="">UPI</option>
-                                <option value="">Cash</option>
-                                <option value="">Card</option>
+                            <select class="form-control" name="payment_mode">
+                                <option value="UPI">UPI</option>
+                                <option value="Cash">Cash</option>
+                                <option value="Card">Card</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-lg-4 col-sm-12 mt-4 p-3 rounded shadow">
                         <div class="col-12 mb-3">
                             <h4>Total: <span id="totalPrice">0.00</span></h4>
+                            <input type="text" hidden name="total_price" id="totalPriceInput">
                         </div>
                         <div class="col-12 mb-3">
                             <h2>Discounted Price: <span id="discountedPrice">0.00</span></h2>
+                            <input type="text" hidden name="discounted_price" id="discountedPriceInput">
                         </div>
                         <div class="col-12 mb-3">
                             <label for="" class="form-label">Balance Payable: <span id="balancePayable">0.00</span></label>
+                            <input type="text" hidden name="balance_payable" id="balancePayableInput">
                         </div>
                     </div>
                 </div>
+
+                <!-- Buttons -->
                 <div class="d-flex justify-content-center mt-3 mb-3">
                     <button type="button" class="btn btn-success" onclick="calculateTotals()">Calculate</button>
                 </div>
@@ -124,65 +137,71 @@
     <script>
         function populateDateTime() {
             const now = new Date();
-            const date = now.toLocaleDateString('en-GB');
-            document.getElementById('billingDate').value = date;
+            document.getElementById('billingDate').value = now.toLocaleDateString('en-GB');
             updateTime();
         }
 
         function updateTime() {
             setInterval(() => {
-                const now = new Date();
-                const time = now.toLocaleTimeString('en-GB');
-                document.getElementById('billingTime').value = time;
+                document.getElementById('billingTime').value = new Date().toLocaleTimeString('en-GB');
             }, 1000);
         }
 
         function addRow() {
             const table = document.getElementById('servicesTable').getElementsByTagName('tbody')[0];
             const rowCount = table.rows.length + 1;
-
             const newRow = table.insertRow();
             newRow.innerHTML = `
                 <td>${rowCount}</td>
                 <td><input name="service" class="form-control" type="text"></td>
-                <td><input name="cost" class="form-control" type="text"></td>
-                <td><input name="price" class="form-control price" type="text"></td>
+                <td><input name="cost" class="form-control cost" type="number" oninput="calculateRowPrice(this)"></td>
+                <td><input name="quantity" class="form-control quantity" type="number" oninput="calculateRowPrice(this)"></td>
+                <td><input name="price" class="form-control price" type="text" readonly></td>
             `;
         }
 
+        function calculateRowPrice(input) {
+            const row = input.closest('tr');
+            const cost = parseFloat(row.querySelector('.cost').value) || 0;
+            const quantity = parseFloat(row.querySelector('.quantity').value) || 0;
+            const priceField = row.querySelector('.price');
+            const price = cost * quantity;
+            priceField.value = price.toFixed(2);
+            calculateTotals();
+        }
+
         function calculateTotals() {
-            let totalPrice = 0;
-            const prices = document.querySelectorAll('.price');
-
-            prices.forEach(priceField => {
-                const priceValue = parseFloat(priceField.value) || 0;
-                totalPrice += priceValue;
+            let total = 0;
+            document.querySelectorAll('.price').forEach(input => {
+                total += parseFloat(input.value) || 0;
             });
-
             const discountPercentage = parseFloat(document.getElementById('discount').value) || 0;
             const advancePayment = parseFloat(document.getElementById('advancePayment').value) || 0;
 
-            const discountedPrice = totalPrice * (1 - discountPercentage / 100);
-            const balancePayable = discountedPrice - advancePayment;
+            const discountAmount = total * (discountPercentage / 100);
+            const discountedTotal = total - discountAmount;
+            const balancePayable = discountedTotal - advancePayment;
 
-            document.getElementById('totalPrice').textContent = totalPrice.toFixed(2);
-            document.getElementById('discountedPrice').textContent = discountedPrice.toFixed(2);
-            document.getElementById('balancePayable').textContent = balancePayable.toFixed(2);
+            document.getElementById('totalPrice').innerText = total.toFixed(2);
+            document.getElementById('totalPriceInput').value = total.toFixed(2);
+            document.getElementById('discountedPrice').innerText = discountedTotal.toFixed(2);
+            document.getElementById('discountedPriceInput').value = discountedTotal.toFixed(2);
+            document.getElementById('balancePayable').innerText = balancePayable.toFixed(2);
+            document.getElementById('balancePayableInput').value = balancePayable.toFixed(2);
         }
 
         function submitForm() {
-            document.getElementById("billingForm").submit();
+            const form = document.getElementById('billingForm');
+            form.submit();
         }
 
         function clearForm() {
-            document.getElementById("billingForm").reset();
+            document.getElementById('billingForm').reset();
+            document.getElementById('totalPrice').innerText = "0.00";
+            document.getElementById('discountedPrice').innerText = "0.00";
+            document.getElementById('balancePayable').innerText = "0.00";
+            calculateTotals();
         }
     </script>
-    <footer class="bg-color text-center text-lg-start">
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
-          © 2024 Copyright:
-          <a class="text-body" href="https://mdbootstrap.com/">Scalable Solutions</a>
-        </div>
-      </footer>
 </body>
 </html>
