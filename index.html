@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scalable</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <style>
+        .nav-bg{
+            background-color: rgb(255, 145, 0);
+        }
+        .bg-color{
+            background-color: rgb(255, 218, 170);
+        }
+    </style>
+</head>
+<body class="bg-color" onload="populateDateTime()">
+    <nav class="navbar nav-bg">
+        <div class="container">
+          <a class="navbar-brand" href="#">
+            <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Bootstrap" width="30" height="24">
+          </a>
+        </div>
+    </nav>
+    <div class="container p-4 rounded bg-light mt-4 mb-4 shadow">
+        <div class="container mt-5">
+            <h1 class="ms-5 mb-4">Scalable Billing Software</h1>
+            <div class="container d-flex justify-content-around">
+                <div class="col-3 mb-3 p-3 rounded shadow ">
+                    <label for="" class="form-label">Billed By</label>
+                    <input type="text" class="form-control" name="" id="">
+                </div>
+                <div class="col-3 mb-3 p-3 shadow rounded">
+                    <label for="" class="form-label">Billing Date</label>
+                    <input type="text" class="form-control" disabled readonly id="billingDate">
+                </div>
+                <div class="col-3 mb-3 p-3 rounded shadow">
+                    <label for="" class="form-label">Billing Time</label>
+                    <input type="text" class="form-control" disabled readonly id="billingTime">
+                </div>
+            </div>
+            <div class="container p-5">
+                <table class="table  table-warning table-striped" id="servicesTable">
+                    <thead>
+                        <tr class="">
+                            <th>SiNo</th>
+                            <th>Service Description</th>
+                            <th>Cost</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><input class="form-control" type="text"></td>
+                            <td><input class="form-control" type="text"></td>
+                            <td><input class="form-control" type="text"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn nav-bg mb-3 d-flex justify-content-end" onclick="addRow()">Add</button>
+            </div>
+            <div class="container d-flex justify-content-evenly mb-3">
+                <div class="col-4 p-3 rounded shadow">
+                    <div class="col-12 mb-3">
+                        <label for="" class="form-label">Advance Payment</label>
+                        <input type="text" class="form-control" name="" id="">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="" class="form-label">Discount</label>
+                        <input type="text" class="form-control" name="" id="">
+                    </div>
+                    <div class="col-12 mb-3">
+                        <label for="" class="form-label">Mode of Payment</label>
+                        <select name="" class="form-control" id="">
+                            <option value="">UPI</option>
+                            <option value="">Cash</option>
+                            <option value="">Card</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-4 p-3 rounded shadow">
+
+                </div>
+            </div>
+            <div class="container d-flex justify-content-end gap-3">
+                <button class="btn btn-warning">Clear</button>
+                <button class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function populateDateTime() {
+            const now = new Date();
+            const date = now.toLocaleDateString('en-GB');
+            document.getElementById('billingDate').value = date;
+            updateTime();
+        }
+
+        function updateTime() {
+            setInterval(() => {
+                const now = new Date();
+                const time = now.toLocaleTimeString('en-GB');
+                document.getElementById('billingTime').value = time;
+            }, 1000);
+        }
+
+        function addRow() {
+            const table = document.getElementById('servicesTable').getElementsByTagName('tbody')[0];
+            const rowCount = table.rows.length + 1;
+
+            const newRow = table.insertRow();
+            newRow.innerHTML = `
+                <td>${rowCount}</td>
+                <td><input class="form-control" type="text"></td>
+                <td><input class="form-control" type="text"></td>
+                <td><input class="form-control" type="text"></td>
+            `;
+        }
+    </script>
+</body>
+</html>
