@@ -3,11 +3,13 @@ from docx.shared import Mm #Defining size of logo
 import fitz #used for converting PDF to image
 from docx2pdf import convert #For converting docx to pdf
 import os #For removing files
+import pythoncom
 
 
 
 #Function to make invoice
 def invoice(template, context):
+    pythoncom.CoInitialize()
     document = DocxTemplate(template)
 
     #Datas inside the Invoice
@@ -32,6 +34,7 @@ def invoice(template, context):
     #Converting docx to pdf
     convert(f'{context['customer_name']}-invoice.docx', f'{context['customer_name']}-invoice.pdf')
     os.remove(f'{context['customer_name']}-invoice.docx')
+    pythoncom.CoUninitialize()
     # #Converting PDF to Image
     # with fitz.open(f'{name}.pdf') as pdf_doc:
     #     for pg in range(pdf_doc.page_count):
