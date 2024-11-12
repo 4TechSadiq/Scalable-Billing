@@ -34,5 +34,5 @@ This project is a billing system built using Python, Flask, and DoXcTPL for gene
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/billing-system.git
-   cd billing-system
+   git clone https://github.com/4TechSadiq/Scalable-Billing.git
+
