@@ -83,8 +83,6 @@ def index():
         context['services'] = services
 
         invoice('invoice.docx', context)
-        print(context)
-
     return render_template('index.html')
 if __name__ == '__main__':
     app.run(debug=True)

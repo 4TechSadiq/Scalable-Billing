@@ -30,10 +30,10 @@ def invoice(template, context):
     document.render(context)
 
     #Saving Document
-    document.save(f'{context['customer_name']}-invoice.docx')
+    document.save(f'{context['invoice_no']}-invoice.docx')
     #Converting docx to pdf
-    convert(f'{context['customer_name']}-invoice.docx', f'{context['customer_name']}-invoice.pdf')
-    os.remove(f'{context['customer_name']}-invoice.docx')
+    convert(f'{context['invoice_no']}-invoice.docx', f'{context['invoice_no']}-invoice.pdf')
+    os.remove(f'{context['invoice_no']}-invoice.docx')
     pythoncom.CoUninitialize()
     # #Converting PDF to Image
     # with fitz.open(f'{name}.pdf') as pdf_doc:
