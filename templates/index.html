@@ -11,12 +11,12 @@
             background-color: rgb(255, 145, 0);
         }
         .bg-color{
-            background-color: rgb(255, 218, 170);
+            background-color: rgb(170, 242, 255);
         }
     </style>
 </head>
 <body class="bg-color" onload="populateDateTime()">
-    <nav class="navbar nav-bg">
+    <nav class="navbar bg-primary">
         <div class="container">
           <a class="navbar-brand" href="#">
             <img src="Scalable - Copy.png" alt="Bootstrap" width="300" height="80">
@@ -25,6 +25,7 @@
     </nav>
     <div class="container p-4 rounded bg-light mt-4 mb-4 shadow">
         <div class="container mt-5">
+            <h2 class="mb-3">Scalable Billings</h2>
             <form method='post' action="{{ url_for('index') }}" id="billingForm">
                 <!-- Billing Information Section -->
                 <div class="container d-flex mb-5 justify-content-around flex-wrap">
@@ -129,6 +130,7 @@
                 <div class="container d-flex justify-content-end gap-3">
                     <button type="button" class="btn btn-warning" onclick="clearForm()">Clear</button>
                     <button type="button" class="btn btn-success" onclick="submitForm()">Print Receipt</button>
+                    
                 </div>
             </form>
         </div>
